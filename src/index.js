@@ -215,10 +215,4 @@ function BasicEditorJs(container, options) {
   
   new insertText(this.text, this.syntax, this.container, this.options);
  new highlight(this.text, this.syntax, this.options)
-} 
-let txt = `code is awesome.`;
-let html = new BasicEditorJs(document.querySelector("#html-editor"), {
- value : txt,
- mode : "plain/html",
- editable : true
-});
+}
