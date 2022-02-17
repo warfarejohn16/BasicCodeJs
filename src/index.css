@@ -1,0 +1,119 @@
+.codeEditor {
+ width: 100%;
+ height: 100%;
+ position: relative;
+ overflow: auto;
+ font-size: inherit;
+ line-height: inherit;
+ font-family: inherit;
+ background: rgba(0,0,0,.9);
+ color: white;
+}
+.codeEditor pre {
+ position: relative;
+ display: flex;
+ align-items: stretch;
+ justify-content: center;
+ box-sizing: content-box !important;
+ margin: 0 auto !important;
+ padding: 0 !important;
+ color: inherit !important;
+ overflow: auto;
+}
+.codeEditor pre, .codeEditor pre * {
+ margin: 0;
+ padding: 0;
+ border: none;
+ font-size: inherit !important;
+ font-family: inherit !important;
+ line-height: inherit !important;
+ box-sizing: content-box !important;
+ white-space: pre-wrap;
+ word-wrap: break-word;
+} 
+.codeEditor pre .input {
+ width: 100%;
+ color: inherit;
+ cursor: text;
+}
+.codeEditor pre .cursor {
+ position: absolute;
+ top: 0!important;
+ width: 100%;
+ height: 100%;
+ z-index: 1;
+ background: transparent;
+ color: transparent !important;
+ caret-color: white;
+ caret-shape: underscore;
+ resize: none;
+}
+.codeEditor pre .syntax {
+ width: 100%;
+ display: block;
+}
+.codeEditor pre .cursor::selection {
+ /*color: transparent!important;*/
+ color: white;
+ background: rgba(0,105,255,.23);
+}
+.codeEditor pre .syntax attr {
+ color: violet;
+}
+.codeEditor pre .syntax tag {
+ color: skyblue !important;
+}
+.codeEditor pre .syntax close {
+ color: white !important;
+}
+.codeEditor pre .syntax qoute {
+ color: lightgreen !important;
+}
+.codeEditor pre .syntax build, .codeEditor pre .syntax property {
+ color: orange;
+}
+.codeEditor pre .syntax comment {
+ color: lightgrey;
+}
+.codeEditor pre .syntax js {
+ color: inherit;
+}
+.codeEditor pre .syntax keyword {
+ color: violet;
+}
+.codeEditor pre .syntax numberBasic {
+ color: lightblue;
+}
+.codeEditor pre .syntax type, .codeEditor pre .syntax type1 {
+ color: lightgreen;
+}
+.codeEditor pre .syntax define {
+ color: orange;
+}
+.codeEditor pre .syntax regex {
+ color: yellow;
+}
+.codeEditor pre .syntax rg {
+ color: rgb(255,90,0);
+}
+.codeEditor pre .syntax ednreg {
+ color: lightblue;
+}
+.codeEditor pre .syntax bracket {
+ color: inherit;
+}
+.codeEditor pre .syntax at {
+ color: green;
+}
+.codeEditor pre .syntax value {
+ color: violet;
+}
+.codeEditor pre .syntax not {
+ color: gold;
+}
+.codeEditor pre .syntax u_ {
+ color: white;
+}
+.codeEditor pre .syntax paran {
+ color: white;
+}
