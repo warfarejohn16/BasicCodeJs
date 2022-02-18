@@ -28,8 +28,8 @@
  font-family: inherit !important;
  line-height: inherit !important;
  box-sizing: content-box !important;
- white-space: pre-wrap;
  word-wrap: break-word;
+ white-space: pre-wrap;
 } 
 .codeEditor pre .input {
  width: 100%;
@@ -51,6 +51,14 @@
 .codeEditor pre .syntax {
  width: 100%;
  display: block;
+}
+.codeEditor pre .syntax * {
+ font-size: inherit !important;
+ font-weight: inherit !important;
+ font-family: inherit !important;
+ line-height: inherit;
+ margin: 0;
+ padding: 0;
 }
 .codeEditor pre .cursor::selection {
  /*color: transparent!important;*/
@@ -111,9 +119,19 @@
 .codeEditor pre .syntax not {
  color: gold;
 }
-.codeEditor pre .syntax u_ {
+.codeEditor pre .syntax paran, .codeEditor pre .syntax u_ {
  color: white;
 }
-.codeEditor pre .syntax paran {
- color: white;
+.codeEditor pre .syntax prop {
+ color: #0080ff;
+}
+.codeEditor pre .syntax operation, .codeEditor pre .syntax hex {
+ color: tomato;
+}
+.codeEditor pre .syntax hex * {
+ color: inherit !important 
+ ;
+}
+.codeEditor pre .syntax type {
+ color: lightgreen;
 }
