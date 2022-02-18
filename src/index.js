@@ -1,8 +1,33 @@
-//"use strict"
+/*
+ how to use BasicEditorJs??
+ ----------------========-------
+ This editor is pure highlighted with regex...
+ each tokens have a value here so dont remove or change it.
+ 
+ How you can use BasicEditorJs:
+  + basicEditorJs.setOptions(param1, param2)
+   |> parameter 1 : which specific options need to be changed.
+   ||> parameter 2 : the value of the option you want to change
+  + new BasicEditorJs(param1, {param2}) :
+   |> parameter 1 : specific container which where the editor should be place. the container must be have a class or id.
+   ||> parameter 2 : the list of options which is $=
+      >> value : you can add text/string.
+      >> editable : you can add boolean option
+      >> placeholder : add some "ghost"? text.
+      >> mode : the modes ["plain/html", "plain/css", "plain/javascript"].
+  
+  Made By : John Kurt.
+  Last Modefied : 2022, feb 18.
+  /[
+   ⚠️⚠️⚠️⚠️⚠️⚠️⚠️⚠️⚠️⚠️
+   if this code has a bug please let me know at
+   👉👉👉 : picaojohnkurt@gmail.com
+  ]/
+*/
 let attr = document.getElementsByTagName("attr");
 let qoute = document.getElementsByTagName("qoute");
 let comment = document.getElementsByTagName("comment");
-let defined = document.getElementsByTagName("define")
+let defined = document.getElementsByTagName("define");
 let _js = document.getElementsByTagName("js");
 let _css = document.getElementsByTagName("css");
 let _reg = document.getElementsByTagName("regex");
@@ -37,24 +62,27 @@ function highlight(inputX, inputX_1, options) {
   },
   modeJs : {
    qoute : new RegExp(/("(.*?)"|'(.*?)'|"(.*?)+|'(.*?)+)/, "g"),
-   keywords : new RegExp(/(?<!\w|\d|[$_])(constructor|do|while|for|if|else|throw|then|try|function|finally|this|catch|break|continue|switch|case|default|export|import|from|as|of|in|class|new|const|let|var|return|await|async|implements|protected|static|yeild|public|debugger|enum|null|undefined|void|package|super|delete|extends|interface|private|with|get|set)(?!\w|\d|[$_])/, "g"),
-   type : new RegExp(/(true|false|undefined|null|event)/, "g"),
+   keywords : new RegExp(/(?<!\w|\d|[$_.])(\=&gt;|constructor|do|while|for|if|else|throw|then|try|function|finally|this|catch|break|continue|switch|case|default|export|import|from|as|of|in|class|new|const|let|var|return|await|async|implements|protected|static|yeild|public|debugger|enum|null|void|package|super|delete|extends|interface|private|with|get|set)(?!\w|\d|[$_.])/, "g"),
+   type : new RegExp(/(true|false|undefined|null|event|Math(?=\.))/, "g"),
+   property : new RegExp(/(?<=\.)([^<>\d.\W][\w\d]*)/, "g"),
    number : new RegExp(/(?<![\w$_])(\d+)(?![\w$_])/, "g"),
    def : new RegExp(/(?<=function\s)(.*?)(?=\(|\n)/, "g"),
-   regex : new RegExp(/((?<!["'{}\w<>]\s*?|\/|\\\s*?|\*\s*?|&lt;\s*?)\/(.*)((?<!\\|\\\/|<)\/)[sgmiy]*)(?=[,;]|)/, "g"),
-   tic : new RegExp(/(\`([\w\n\s\W\d]*?)\`)/, "gs"),
+   regex : new RegExp(/((?<!["'{}a-zA-Z<]\s*?|\/|\\\s*?|\*\s*?|&lt;\s*?)\/(.*)((?<!\\|\\\/|<)\/)[sgmiy]*)(?=[,;]|)/, "g"),
+   tic : new RegExp(/(\`([\w\n\s\W\d]*?)\`|(?<!\d|\w)document(?!\d|\w|[\$_])|(?<!\d|\w|[\$_])window(?!\w|\d))/, "gs"),
    cfh: new RegExp(/(\$\{([\w\s\n\W\d]*?)\}|\$\{([\w\s\n\W\d]*)+)/, "g"),
+   operator : new RegExp(/(&amp;|&amp;&amp;|\=(?!&gt;)|(?<!\/)\*(?!\/)|(?<!\/.*|\/)\/(?!.*\/|\/)|\|\||\||\![\w_\d]+|\%|&lt;|(?<!\=)&gt;|\+)/, "g"),
   },
   
   
   modeCss : {
    bracket : new RegExp(/(\{([\w\d\n\W\s]*?[^\{]+\B)\}|\{([\w\s\W\n\d]*)+)/, "g"),
    brValue : new RegExp(/(?<!&gt;)([a-zA-Z\-]*)(?=\:)/, "g"),
-   number : new RegExp(/(?<![a-zA-Z])([.+-]?\d+[a-z%.]*)/, "g"),
+   number : new RegExp(/(?<![a-zA-Z\#])([.+-]?\d+[a-z%.]*)/, "g"),
    at_ : new RegExp(/(@[\w-]+)/, "g"),
-   _string_ : new RegExp(/(?<!\w|\d)(\-[\w]+\-)/, "g"),
+   _string_ : new RegExp(/(?<!\w|\d|\-)(\-[\w]+\-)/, "g"),
    value : new RegExp(/(?<=\:)([\w\s\d\n\W]*?)(?=\;|\n+|\})/, "g"),
-   closeParam : new RegExp(/(\(|\)|\,)/, "g"),
+   closeParam : new RegExp(/(\-\-(.*)\-\-|[\(\)\,]|(?<=\s)[+*\-%](?=\s))/, "g"),
+   hex : new RegExp(/(\#[\d\w]+)/, "g")
   },
   fixedBreak : new RegExp(/(<[^br](.*?)>)/, "g"),
  };
@@ -79,12 +107,14 @@ function highlight(inputX, inputX_1, options) {
  }
   for(let j = 0; j < _js.length; j++) {
    let str4 = _js[j].innerHTML;
-   str4 = str4.replace(/(<[^br](.*?)>)/g, ``);
+   str4 = str4.replace(/(<(.*?)>)/g, ``);
+   str4 = str4.replace(tokenjs.modeJs.operator, `<operation>$1</operation>`);
    str4 = str4.replace(tokenjs.modeJs.def, "<define>$1</define>");
+   str4 = str4.replace(tokenjs.modeJs.type, `<type>$1</type>`)
    str4 = str4.replace(tokenjs.modeJs.keywords, `<keyword>$1</keyword>`);
    str4 = str4.replace(tokenjs.modeJs.number, `<numberbasic>$1</numberbasic>`);
    str4 = str4.replace(tokenjs.modeJs.qoute, `<qoute>$1</qoute>`);
-   str4 = str4.replace(tokenjs.modeJs.tic, `<not>$1</not>`)
+   str4 = str4.replace(tokenjs.modeJs.tic, `<not>$1</not>`);
    str4 = str4.replace(tokenjs.comments.js[0], `<comment>$1</comment>`);
    str4 = str4.replace(tokenjs.comments.js[1], `<comment>$1</comment>`);
    str4 = str4.replace(tokenjs.modeJs.regex, `<regex>$1</regex>`);
@@ -117,10 +147,13 @@ function highlight(inputX, inputX_1, options) {
  }
  if(options.mode === "plain/javascript") {
    let JsStr1 = inputX_1.innerHTML;
-   JsStr1 = JsStr1.replace(/(<[^br](.*?)>)/g, ``);
+   JsStr1 = JsStr1.replace(/(<(.*?)>)/g, ``);
+   JsStr1 = JsStr1.replace(tokenjs.modeJs.operator, `<operation>$1</operation>`);
    JsStr1 = JsStr1.replace(tokenjs.modeJs.def, "<define>$1</define>");
+   JsStr1 = JsStr1.replace(tokenjs.modeJs.type, `<type>$1</type>`)
    JsStr1 = JsStr1.replace(tokenjs.modeJs.keywords, `<keyword>$1</keyword>`);
    JsStr1 = JsStr1.replace(tokenjs.modeJs.number, `<numberbasic>$1</numberbasic>`);
+   JsStr1 = JsStr1.replace(tokenjs.modeJs.property, `<prop>$1</prop>`);
    JsStr1 = JsStr1.replace(tokenjs.modeJs.qoute, `<qoute>$1</qoute>`);
    JsStr1 = JsStr1.replace(tokenjs.modeJs.tic, `<not>$1</not>`);
    JsStr1 = JsStr1.replace(tokenjs.comments.js[0], `<comment>$1</comment>`);
@@ -136,7 +169,7 @@ function highlight(inputX, inputX_1, options) {
   brckt = brckt.replace(tokenjs.modeCss.value, `<value>$1</value>`);
   brckt = brckt.replace(tokenjs.modeCss._string_, `<type1>$1</type1>`);
   brckt = brckt.replace(tokenjs.modeCss.brValue, `<property>$1</property>`);
-  brckt = brckt.replace(tokenjs.comments.css, `<comment>$1</comment>`)
+  brckt = brckt.replace(tokenjs.comments.css, `<comment>$1</comment>`);
   bracket[b].innerHTML = brckt;
  }
  //.....
@@ -153,7 +186,7 @@ function highlight(inputX, inputX_1, options) {
  for(let r = 0; r < _reg.length; r++) {
   let regStr = _reg[r].innerHTML;
   regStr = regStr.replace(/<(.*?)>/g, ``);
-  regStr = regStr.replace(/(\\[a-zA-Z"']|\\\/|["'])/g, `<rg>$1</rg>`);
+  regStr = regStr.replace(/(&gt;|&lt;|[\*\.\?\(\)\=\!\[\]\|]|\\[a-zA-Z"']|\\\/|["']|\\\\|\\\|)/g, `<rg>$1</rg>`);
   regStr = regStr.replace(/(?<!&lt;)(^\/|\/$|\/(?=[gmiys]+))/g, `<ednreg>$1</ednreg>`);
   _reg[r].innerHTML = regStr;
  }
@@ -165,10 +198,12 @@ function highlight(inputX, inputX_1, options) {
  }
  for(let v = 0; v < _value.length; v++) {
   let vstr = _value[v].innerHTML;
+  vstr = vstr.replace(/<(.*?)>/g, ``)
   vstr = vstr.replace(tokenjs.modeCss.closeParam,  `<paran>$1</paran>`);
+  vstr = vstr.replace(tokenjs.modeCss.hex, `<hex>$1</hex>`);
+  vstr = vstr.replace(tokenjs.modeCss.number, `<numberBasic>$1</numberBasic>`)
   _value[v].innerHTML = vstr;
  }
-  console.log(inputX_1.innerHTML)
 }
 
 
@@ -192,13 +227,18 @@ function BasicEditorJs(container, options) {
  this.name = container.className || container.id;
  if(this.name === container.className) this.name = `.${this.name}`;
  if(this.name === container.id) this.name = `#${this.name}`;
- console.log(this.name)
+ console.log(`container is found at ${this.name}`)
  container.innerHTML = `
   <div class="codeEditor">
    <pre><textarea class="cursor input"></textarea><code class="syntax input" contenteditable></code></pre>
   </div>
  `;
- this.options = options;
+ this.options = {
+  value : options.value,
+  placeholder : options.placeholder,
+  editable : options.editable,
+  mode : options.mode
+ };
  this.text = document.querySelector(`${this.name} .codeEditor pre .cursor`);
  this.syntax = document.querySelector(`${this.name} .codeEditor pre .syntax`);
  this.container = document.querySelector(`${this.name} .codeEditor`);
@@ -206,13 +246,35 @@ function BasicEditorJs(container, options) {
  this.size = {
   width : parseInt(getComputedStyle(this.container, null).getPropertyValue("width")),
   height : parseInt(getComputedStyle(this.container, null).getPropertyValue("height"))
- };
+ }
  this.Pre.style.width = `${this.size.width}px`;
+ this.setOptions = function(tag, value) {
+  this.arr = ["value", "placeholder", "mode", "editable"]
+  if(tag === this.arr[0]) {
+   this.options.value = value;
+  }
+  if(tag === this.arr[1]) {
+   this.options.placeholder = value;
+   this.text.placeholder = this.options.placeholder;
+  }
+  if(tag === this.arr[2]) {
+   this.options.mode = value;
+  }
+  if(tag === this.arr[3]) {
+   this.options.editable = value;
+   if(this.options.editable) this.text.disabled = "disabled";
+  }
+  if(!this.arr.includes(tag)) console.error(`The ${tag} is not part of the BasicEditorJs options.`);
+ new insertText(this.text, this.syntax, this.container, this.options);
+ new highlight(this.text, this.syntax, this.options)
+ }
+ this.getValue = function() {
+  return this.text.value;
+ }
   if(this.options.value !== null || this.options.value !== undefined) this.text.value = this.options.value;
   if(this.options.editable === false) this.text.disabled = "disabled";
   this.text.placeholder = this.options.placeholder;
   if(this.options.placeholder === null || this.options.placeholder === undefined || this.options.placeholder === "") this.text.placeholder = "";
-  
   new insertText(this.text, this.syntax, this.container, this.options);
  new highlight(this.text, this.syntax, this.options)
 }
