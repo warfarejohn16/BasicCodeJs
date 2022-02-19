@@ -1,4 +1,4 @@
-how to use BasicEditorJs??
+/*how to use BasicEditorJs??
  ----------------========-------
  This editor is pure highlighted with regex...
  each tokens have a value here so dont remove or change it.
