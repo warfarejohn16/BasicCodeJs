@@ -1,5 +1,4 @@
-/*
- how to use BasicEditorJs??
+how to use BasicEditorJs??
  ----------------========-------
  This editor is pure highlighted with regex...
  each tokens have a value here so dont remove or change it.
@@ -14,7 +13,8 @@
       >> value : you can add text/string.
       >> editable : you can add boolean option
       >> placeholder : add some "ghost"? text.
-      >> mode : the modes ["plain/html", "plain/css", "plain/javascript"].
+      >> mode : the modes ["plain/html", "plain/css", "plain/javascript"]
+    + toggle : toggle between ["light", "dark"] 
   
   Made By : John Kurt.
   Last Modefied : 2022, feb 18.
@@ -62,7 +62,7 @@ function highlight(inputX, inputX_1, options) {
   },
   modeJs : {
    qoute : new RegExp(/("(.*?)"|'(.*?)'|"(.*?)+|'(.*?)+)/, "g"),
-   keywords : new RegExp(/(?<!\w|\d|[$_.])(\=&gt;|constructor|do|while|for|if|else|throw|then|try|function|finally|this|catch|break|continue|switch|case|default|export|import|from|as|of|in|class|new|const|let|var|return|await|async|implements|protected|static|yeild|public|debugger|enum|null|void|package|super|delete|extends|interface|private|with|get|set)(?!\w|\d|[$_.])/, "g"),
+   keywords : new RegExp(/(?<!\w|\d|[$_.])(\=&gt;|constructor|do|while|for|if|else|throw|then|try|function|finally|this|catch|break|continue|switch|case|default|export|import|from|as|of|in|class|new|const|let|var|return|await|async|implements|protected|static|yeild|public|debugger|enum|null|void|package|super|delete|extends|interface|private|with|get|set|typeof)(?!\w|\d|[$_.])/, "g"),
    type : new RegExp(/(true|false|undefined|null|event|Math(?=\.))/, "g"),
    property : new RegExp(/(?<=\.)([^<>\d.\W][\w\d]*)/, "g"),
    number : new RegExp(/(?<![\w$_])(\d+)(?![\w$_])/, "g"),
@@ -70,7 +70,7 @@ function highlight(inputX, inputX_1, options) {
    regex : new RegExp(/((?<!["'{}a-zA-Z<]\s*?|\/|\\\s*?|\*\s*?|&lt;\s*?)\/(.*)((?<!\\|\\\/|<)\/)[sgmiy]*)(?=[,;]|)/, "g"),
    tic : new RegExp(/(\`([\w\n\s\W\d]*?)\`|(?<!\d|\w)document(?!\d|\w|[\$_])|(?<!\d|\w|[\$_])window(?!\w|\d))/, "gs"),
    cfh: new RegExp(/(\$\{([\w\s\n\W\d]*?)\}|\$\{([\w\s\n\W\d]*)+)/, "g"),
-   operator : new RegExp(/(&amp;|&amp;&amp;|\=(?!&gt;)|(?<!\/)\*(?!\/)|(?<!\/.*|\/)\/(?!.*\/|\/)|\|\||\||\![\w_\d]+|\%|&lt;|(?<!\=)&gt;|\+)/, "g"),
+   operator : new RegExp(/(&amp;|&amp;&amp;|\=(?!&gt;)|(?<!\/)\*(?!\/)|(?<!\/.*|\/)\/(?!.*\/|\/)|\|\||\||\![\w_\d]+|\%|&lt;|(?<!\=)&gt;|\+|\-)/, "g"),
   },
   
   
@@ -81,8 +81,9 @@ function highlight(inputX, inputX_1, options) {
    at_ : new RegExp(/(@[\w-]+)/, "g"),
    _string_ : new RegExp(/(?<!\w|\d|\-)(\-[\w]+\-)/, "g"),
    value : new RegExp(/(?<=\:)([\w\s\d\n\W]*?)(?=\;|\n+|\})/, "g"),
-   closeParam : new RegExp(/(\-\-(.*)\-\-|[\(\)\,]|(?<=\s)[+*\-%](?=\s))/, "g"),
-   hex : new RegExp(/(\#[\d\w]+)/, "g")
+   closeParam : new RegExp(/([\w\-]+\(|\-\-(.*)\-\-|[\(\)\,]|(?<=\s)[+*\-%](?=\s))/, "g"),
+   hex : new RegExp(/(\#[\d\w]+)/, "g"),
+   colors : new RegExp(/(?<!\w|\d)(AliceBlue|AntiqueWhite|Aqua|Aquamarine|Azure|Beige|Bisque|Black|BlanchedAlmond|Blue|BlueViolet|Brown|BurlyWood|CadetBlue|Chartreuse|Chocolate|Coral|CornflowerBlue|Cornsilk|Crimson|Cyan|DarkBlue|DarkCyan|DarkGoldenRod|DarkGray|DarkGrey|DarkGreen|DarkKhaki|DarkMagenta|DarkOliveGreen|DarkOrange|DarkOrchid|DarkRed|DarkSalmon|DarkSeaGreen|DarkSlateBlue|DarkSlateGray|DarkSlateGrey|DarkTurquoise|DarkViolet|DeepPink|DeepSkyBlue|DimGray|DimGrey|DodgerBlue|FireBrick|FloralWhite|ForestGreen|Fuchsia|Gainsboro|GhostWhite|Gold|GoldenRod|Gray|Grey|Green|GreenYellow|HoneyDew|HotPink|IndianRed|Indigo|Ivory|Khaki|Lavender|LavenderBlush|LawnGreen|LemonChiffon|LightBlue|LightCoral|LightCyan|LightGoldenRodYellow|LightGray|LightGrey|LightGreen|LightPink|LightSalmon|LightSeaGreen|LightSkyBlue|LightSlateGray|LightSlateGrey|LightSteelBlue|LightYellow|Lime|LimeGreen|Linen|Magenta|Maroon|MediumAquaMarine|MediumBlue|MediumOrchid|MediumPurple|MediumSeaGreen|MediumSlateBlue|MediumSpringGreen|MediumTurquoise|MediumVioletRed|MidnightBlue|MintCream|MistyRose|Moccasin|NavajoWhite|Navy|OldLace|Olive|OliveDrab|Orange|OrangeRed|Orchid|PaleGoldenRod|PaleGreen|PaleTurquoise|PaleVioletRed|PapayaWhip|PeachPuff|Peru|Pink|Plum|PowderBlue|Purple|RebeccaPurple|Red|RosyBrown|RoyalBlue|SaddleBrown|Salmon|SandyBrown|SeaGreen|SeaShell|Sienna|Silver|SkyBlue|SlateBlue|SlateGray|SlateGrey|Snow|SpringGreen|SteelBlue|Tan|Teal|Thistle|Tomato|Turquoise|Violet|Wheat|White|WhiteSmoke|Yellow|YellowGreen)(?!\w|\d)/, "gi")
   },
   fixedBreak : new RegExp(/(<[^br](.*?)>)/, "g"),
  };
@@ -113,6 +114,7 @@ function highlight(inputX, inputX_1, options) {
    str4 = str4.replace(tokenjs.modeJs.type, `<type>$1</type>`)
    str4 = str4.replace(tokenjs.modeJs.keywords, `<keyword>$1</keyword>`);
    str4 = str4.replace(tokenjs.modeJs.number, `<numberbasic>$1</numberbasic>`);
+   str4 = str4.replace(tokenjs.modeJs.property, `<prop>$1</prop>`);
    str4 = str4.replace(tokenjs.modeJs.qoute, `<qoute>$1</qoute>`);
    str4 = str4.replace(tokenjs.modeJs.tic, `<not>$1</not>`);
    str4 = str4.replace(tokenjs.comments.js[0], `<comment>$1</comment>`);
@@ -199,9 +201,11 @@ function highlight(inputX, inputX_1, options) {
  for(let v = 0; v < _value.length; v++) {
   let vstr = _value[v].innerHTML;
   vstr = vstr.replace(/<(.*?)>/g, ``)
+  vstr = vstr.replace(tokenjs.modeCss.colors, `<color>$1</color>`);
   vstr = vstr.replace(tokenjs.modeCss.closeParam,  `<paran>$1</paran>`);
   vstr = vstr.replace(tokenjs.modeCss.hex, `<hex>$1</hex>`);
   vstr = vstr.replace(tokenjs.modeCss.number, `<numberBasic>$1</numberBasic>`)
+  vstr = vstr.replace(tokenjs.modeJs.qoute, `<qoute>$1</qoute>`);
   _value[v].innerHTML = vstr;
  }
 }
@@ -224,6 +228,7 @@ function BasicEditorJs(container, options) {
   console.error(`no container found at ${container.constrcutor}`)
    return false;
  }
+ this.toggleArr = ["dark", "light"];
  this.name = container.className || container.id;
  if(this.name === container.className) this.name = `.${this.name}`;
  if(this.name === container.id) this.name = `#${this.name}`;
@@ -237,7 +242,8 @@ function BasicEditorJs(container, options) {
   value : options.value,
   placeholder : options.placeholder,
   editable : options.editable,
-  mode : options.mode
+  mode : options.mode,
+  toggle : options.toggle
  };
  this.text = document.querySelector(`${this.name} .codeEditor pre .cursor`);
  this.syntax = document.querySelector(`${this.name} .codeEditor pre .syntax`);
@@ -271,6 +277,25 @@ function BasicEditorJs(container, options) {
  this.getValue = function() {
   return this.text.value;
  }
+ this.on = function(str, func) {
+  this.arrPress = ["keyup", "keydown", "keypress"];
+  this.pos;
+  if(str === this.arrPress[0]) this.pos = 0;
+  if(str === this.arrPress[1]) this.pos = 1;
+  if(str === this.arrPress[2]) this.pos = 2;
+  if(!this.arrPress.includes(str)) console.error(`The ${str} is not part of the option.`)
+  this.text.addEventListener(this.arrPress[this.pos], function() {
+   func();
+  })
+ }
+  if(this.options.toggle === undefined || this.options.toggle === null | this.options.toggle) {
+    this.options.toggle = "dark";
+    this.container.setAttribute("class",`codeEditor ${this.options.toggle}`);
+  }
+  if(!this.toggleArr.includes(this.options.toggle)) console.warn(`the ${this.options.toggle} is not a part of the options.`)
+  if(this.toggleArr.includes(this.options.toggle)) {
+   this.container.setAttribute("class", `codeEditor ${this.options.toggle}`);
+  }
   if(this.options.value !== null || this.options.value !== undefined) this.text.value = this.options.value;
   if(this.options.editable === false) this.text.disabled = "disabled";
   this.text.placeholder = this.options.placeholder;
