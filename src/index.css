@@ -6,8 +6,15 @@
  font-size: inherit;
  line-height: inherit;
  font-family: inherit;
- background: rgba(0,0,0,.9);
  color: white;
+}
+.codeEditor.dark {
+ background: rgb(0,0,0,.9);
+ color: white;
+}
+.codeEditor.light {
+ background: transparent;
+ color: black;
 }
 .codeEditor pre {
  position: relative;
@@ -44,9 +51,13 @@
  z-index: 1;
  background: transparent;
  color: transparent !important;
- caret-color: white;
- caret-shape: underscore;
  resize: none;
+}
+.codeEditor.dark pre .cursor {
+ caret-color: white;
+}
+.codeEditor.light pre .cursor {
+ caret-color: black;
 }
 .codeEditor pre .syntax {
  width: 100%;
@@ -60,78 +71,178 @@
  margin: 0;
  padding: 0;
 }
-.codeEditor pre .cursor::selection {
+.codeEditor.dark pre .cursor::selection {
  /*color: transparent!important;*/
  color: white;
  background: rgba(0,105,255,.23);
 }
-.codeEditor pre .syntax attr {
+.codeEditor.lighy pre .cursor::selection {
+ /*color: transparent!important;*/
+ color: black;
+ background: rgba(0,105,255,.13);
+}
+.codeEditor.dark pre .syntax attr {
  color: violet;
 }
-.codeEditor pre .syntax tag {
+.codeEditor.dark pre .syntax tag {
  color: skyblue !important;
 }
-.codeEditor pre .syntax close {
+.codeEditor.dark pre .syntax close {
  color: white !important;
 }
-.codeEditor pre .syntax qoute {
+.codeEditor.dark pre .syntax qoute {
  color: lightgreen !important;
 }
-.codeEditor pre .syntax build, .codeEditor pre .syntax property {
+.codeEditor.dark pre .syntax build, .codeEditor.dark pre .syntax property {
  color: orange;
 }
-.codeEditor pre .syntax comment {
+.codeEditor.dark pre .syntax comment {
  color: lightgrey;
 }
-.codeEditor pre .syntax js {
+.codeEditor.dark pre .syntax js {
  color: inherit;
 }
-.codeEditor pre .syntax keyword {
+.codeEditor.dark pre .syntax keyword {
  color: violet;
 }
-.codeEditor pre .syntax numberBasic {
+.codeEditor.dark pre .syntax numberBasic {
  color: lightblue;
 }
-.codeEditor pre .syntax type, .codeEditor pre .syntax type1 {
+.codeEditor.dark pre .syntax type, .codeEditor.dark pre .syntax type1 {
  color: lightgreen;
 }
-.codeEditor pre .syntax define {
+.codeEditor.dark pre .syntax define {
  color: orange;
 }
-.codeEditor pre .syntax regex {
+.codeEditor.dark pre .syntax regex {
  color: yellow;
 }
-.codeEditor pre .syntax rg {
+.codeEditor.dark pre .syntax rg {
  color: rgb(255,90,0);
 }
-.codeEditor pre .syntax ednreg {
+.codeEditor.dark pre .syntax ednreg {
  color: lightblue;
 }
-.codeEditor pre .syntax bracket {
+.codeEditor.dark pre .syntax bracket {
  color: inherit;
 }
-.codeEditor pre .syntax at {
+.codeEditor.dark pre .syntax at {
  color: green;
 }
-.codeEditor pre .syntax value {
+.codeEditor.dark pre .syntax value {
  color: violet;
 }
-.codeEditor pre .syntax not {
+.codeEditor.dark pre .syntax not {
  color: gold;
 }
-.codeEditor pre .syntax paran, .codeEditor pre .syntax u_ {
- color: white;
-}
-.codeEditor pre .syntax prop {
+
+.codeEditor.dark pre .syntax prop {
  color: #0080ff;
 }
-.codeEditor pre .syntax operation, .codeEditor pre .syntax hex {
+.codeEditor.dark pre .syntax operation, .codeEditor.dark pre .syntax hex {
  color: tomato;
 }
-.codeEditor pre .syntax hex * {
+.codeEditor.dark pre .syntax hex * {
  color: inherit !important 
  ;
 }
-.codeEditor pre .syntax type {
+.codeEditor.dark pre .syntax type {
  color: lightgreen;
 }
+.codeEditor.dark pre .syntax color {
+ color: pink;
+}
+
+/*Lights mode*/
+
+.codeEditor.light pre .syntax attr {
+ color: green;
+}
+.codeEditor.light pre .syntax tag {
+ color: darkred !important;
+}
+.codeEditor.light pre .syntax close {
+ color: grey !important;
+}
+.codeEditor.light pre .syntax qoute {
+ color: blue !important;
+}
+.codeEditor.light pre .syntax build {
+ color: grey;
+}
+.codeEditor.light pre .syntax property {
+ color: blue;
+}
+.codeEditor.light pre .syntax comment {
+ color: green;
+}
+.codeEditor.light pre .syntax js {
+ color: inherit;
+}
+.codeEditor.light pre .syntax keyword {
+ color: purple;
+}
+.codeEditor.light pre .syntax numberBasic {
+ color: blue;
+}
+.codeEditor.light pre .syntax type, .codeEditor.light pre .syntax type1 {
+ color: lightgreen;
+}
+.codeEditor.light pre .syntax define {
+ color: orange;
+}
+.codeEditor.light pre .syntax regex {
+ color: mediumseagreen;
+}
+.codeEditor.light pre .syntax rg {
+ color: rgb(38,50,56);
+}
+.codeEditor.light pre .syntax ednreg {
+ color: tomato;
+}
+.codeEditor.light pre .syntax bracket {
+ color: inherit;
+}
+.codeEditor.light pre .syntax at {
+ color: dodgerblue;
+}
+.codeEditor.light pre .syntax value {
+ color: purple;
+}
+.codeEditor.light pre .syntax not {
+ color: darkred;
+}
+
+.codeEditor.light pre .syntax prop {
+ color: darkblue;
+}
+.codeEditor.light pre .syntax operation, .codeEditor.light pre .syntax hex {
+ color: tomato;
+}
+.codeEditor.light pre .syntax hex * {
+ color: inherit !important 
+ ;
+}
+.codeEditor.light pre .syntax type {
+ color: dodgerblue;
+}
+
+.codeEditor.light pre .syntax color {
+ color: darkorange;
+}
+
+
+
+
+
+
+
+
+
+/*do not change it.*/
+.codeEditor.light pre .syntax paran, .codeEditor.light pre .syntax u_ {
+ color: black;
+}
+.codeEditor.dark pre .syntax paran, .codeEditor.dark pre .syntax u_ {
+ color: white;
+} 
