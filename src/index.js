@@ -1,4 +1,5 @@
-/*how to use BasicEditorJs??
+/*
+ how to use BasicEditorJs??
  ----------------========-------
  This editor is pure highlighted with regex...
  each tokens have a value here so dont remove or change it.
@@ -34,6 +35,8 @@ let _reg = document.getElementsByTagName("regex");
 let bracket = document.getElementsByTagName("bracket");
 let not = document.getElementsByTagName("not");
 let _value = document.getElementsByTagName("value");
+let u_ = document.getElementsByTagName("u_");
+let jsn = document.getElementsByTagName("jsn");
 function highlight(inputX, inputX_1, options) {
  let modeArray = ["plain/css", "plain/javascript", "plain/html"];
  //adding text inside inputX_1
@@ -45,9 +48,9 @@ function highlight(inputX, inputX_1, options) {
 
  const tokenjs = {
   comments : {
-   html : new RegExp(/(&lt;!--([\w\d\n\W\s]*?)--&gt;|&lt;!--(.*)+)/, "g"),
+   html : new RegExp(/(&lt;!--([\w\d\n\W\s]*?)--&gt;|&lt;!--([\w\s\d\n\W]*)+)/, "g"),
    css : new RegExp(/(\/\*([\w\s\n\d\W]*?)\*\/|\/\*([\w\s\n\W\d]*)+)/, "g"),
-   js : [new RegExp(/(\/\/(.*)(?=\n))/, "g"), new RegExp(/(\/\*([\w\s\d\n\W]*?)\*\/(?!\s.*?\s*?\*\/)|\/\*([\w\d\n\W\s]*?)+)/, "g")]
+   js : [new RegExp(/(\/\/(.*)(?=\n))/, "g"), new RegExp(/(?<!\/)(\/\*([\w\s\d\n\W]*?)\*\/(?!\s.*?\s*?\*\/)|\/\*([\w\d\n\W\s]*?)+)/, "g")]
   },
   modeHtml: {
    attr : new RegExp(/(&lt;[^!](.*?)&gt;|&lt;[^!](.*?)+)/, "g"),
@@ -62,7 +65,7 @@ function highlight(inputX, inputX_1, options) {
   },
   modeJs : {
    qoute : new RegExp(/("(.*?)"|'(.*?)'|"(.*?)+|'(.*?)+)/, "g"),
-   keywords : new RegExp(/(?<!\w|\d|[$_.])(\=&gt;|constructor|do|while|for|if|else|throw|then|try|function|finally|this|catch|break|continue|switch|case|default|export|import|from|as|of|in|class|new|const|let|var|return|await|async|implements|protected|static|yeild|public|debugger|enum|null|void|package|super|delete|extends|interface|private|with|get|set|typeof)(?!\w|\d|[$_.])/, "g"),
+   keywords : new RegExp(/(?<!\w|\d|[$_.])(\=&gt;|instanceof|constructor|do|while|for|if|else|throw|then|try|function|finally|this|catch|break|continue|switch|case|default|export|import|from|as|of|in|class|new|const|let|var|return|await|async|implements|protected|static|yeild|public|debugger|enum|null|void|package|super|delete|extends|interface|private|with|get|set|typeof)(?!\w|\d|[$_.])/, "g"),
    type : new RegExp(/(true|false|undefined|null|event|Math(?=\.))/, "g"),
    property : new RegExp(/(?<=\.)([^<>\d.\W][\w\d]*)/, "g"),
    number : new RegExp(/(?<![\w$_])(\d+)(?![\w$_])/, "g"),
@@ -70,22 +73,22 @@ function highlight(inputX, inputX_1, options) {
    regex : new RegExp(/((?<!["'{}a-zA-Z<]\s*?|\/|\\\s*?|\*\s*?|&lt;\s*?)\/(.*)((?<!\\|\\\/|<)\/)[sgmiy]*)(?=[,;]|)/, "g"),
    tic : new RegExp(/(\`([\w\n\s\W\d]*?)\`|(?<!\d|\w)document(?!\d|\w|[\$_])|(?<!\d|\w|[\$_])window(?!\w|\d))/, "gs"),
    cfh: new RegExp(/(\$\{([\w\s\n\W\d]*?)\}|\$\{([\w\s\n\W\d]*)+)/, "g"),
-   operator : new RegExp(/(&amp;|&amp;&amp;|\=(?!&gt;)|(?<!\/)\*(?!\/)|(?<!\/.*|\/)\/(?!.*\/|\/)|\|\||\||\![\w_\d]+|\%|&lt;|(?<!\=)&gt;|\+|\-)/, "g"),
+   operator : new RegExp(/(&amp;|&amp;&amp;|\=(?!&gt;)|(?<!\/)\*(?!\/)|(?<!\/.*|\/|\*)\/(?!.*\/|\/|\*)|\|\||\||\![\w_\d]+|\%|&lt;|(?<!\=)&gt;|\+|\-)/, "g"),
   },
   
   
   modeCss : {
    bracket : new RegExp(/(\{([\w\d\n\W\s]*?[^\{]+\B)\}|\{([\w\s\W\n\d]*)+)/, "g"),
-   brValue : new RegExp(/(?<!&gt;)([a-zA-Z\-]*)(?=\:)/, "g"),
+   brValue : new RegExp(/((?<!&lt;\s+|[&>].*?)([\w-]*)(?=\:))/, "g"),
    number : new RegExp(/(?<![a-zA-Z\#])([.+-]?\d+[a-z%.]*)/, "g"),
    at_ : new RegExp(/(@[\w-]+)/, "g"),
    _string_ : new RegExp(/(?<!\w|\d|\-)(\-[\w]+\-)/, "g"),
-   value : new RegExp(/(?<=\:)([\w\s\d\n\W]*?)(?=\;|\n+|\})/, "g"),
+   value : new RegExp(/(?<=\:)([^\{\}][\w\s\d\n\W]*?[^\{\}])(?=\;)/, "g"),
    closeParam : new RegExp(/([\w\-]+\(|\-\-(.*)\-\-|[\(\)\,]|(?<=\s)[+*\-%](?=\s))/, "g"),
    hex : new RegExp(/(\#[\d\w]+)/, "g"),
-   colors : new RegExp(/(?<!\w|\d)(AliceBlue|AntiqueWhite|Aqua|Aquamarine|Azure|Beige|Bisque|Black|BlanchedAlmond|Blue|BlueViolet|Brown|BurlyWood|CadetBlue|Chartreuse|Chocolate|Coral|CornflowerBlue|Cornsilk|Crimson|Cyan|DarkBlue|DarkCyan|DarkGoldenRod|DarkGray|DarkGrey|DarkGreen|DarkKhaki|DarkMagenta|DarkOliveGreen|DarkOrange|DarkOrchid|DarkRed|DarkSalmon|DarkSeaGreen|DarkSlateBlue|DarkSlateGray|DarkSlateGrey|DarkTurquoise|DarkViolet|DeepPink|DeepSkyBlue|DimGray|DimGrey|DodgerBlue|FireBrick|FloralWhite|ForestGreen|Fuchsia|Gainsboro|GhostWhite|Gold|GoldenRod|Gray|Grey|Green|GreenYellow|HoneyDew|HotPink|IndianRed|Indigo|Ivory|Khaki|Lavender|LavenderBlush|LawnGreen|LemonChiffon|LightBlue|LightCoral|LightCyan|LightGoldenRodYellow|LightGray|LightGrey|LightGreen|LightPink|LightSalmon|LightSeaGreen|LightSkyBlue|LightSlateGray|LightSlateGrey|LightSteelBlue|LightYellow|Lime|LimeGreen|Linen|Magenta|Maroon|MediumAquaMarine|MediumBlue|MediumOrchid|MediumPurple|MediumSeaGreen|MediumSlateBlue|MediumSpringGreen|MediumTurquoise|MediumVioletRed|MidnightBlue|MintCream|MistyRose|Moccasin|NavajoWhite|Navy|OldLace|Olive|OliveDrab|Orange|OrangeRed|Orchid|PaleGoldenRod|PaleGreen|PaleTurquoise|PaleVioletRed|PapayaWhip|PeachPuff|Peru|Pink|Plum|PowderBlue|Purple|RebeccaPurple|Red|RosyBrown|RoyalBlue|SaddleBrown|Salmon|SandyBrown|SeaGreen|SeaShell|Sienna|Silver|SkyBlue|SlateBlue|SlateGray|SlateGrey|Snow|SpringGreen|SteelBlue|Tan|Teal|Thistle|Tomato|Turquoise|Violet|Wheat|White|WhiteSmoke|Yellow|YellowGreen)(?!\w|\d)/, "gi")
+   colors : new RegExp(/(?<!\w|\d)(AliceBlue|AntiqueWhite|Aqua|Aquamarine|Azure|Beige|Bisque|Black|BlanchedAlmond|Blue|BlueViolet|Brown|BurlyWood|CadetBlue|Chartreuse|Chocolate|Coral|CornflowerBlue|Cornsilk|Crimson|Cyan|DarkBlue|DarkCyan|DarkGoldenRod|DarkGray|DarkGrey|DarkGreen|DarkKhaki|DarkMagenta|DarkOliveGreen|DarkOrange|DarkOrchid|DarkRed|DarkSalmon|DarkSeaGreen|DarkSlateBlue|DarkSlateGray|DarkSlateGrey|DarkTurquoise|DarkViolet|DeepPink|DeepSkyBlue|DimGray|DimGrey|DodgerBlue|FireBrick|FloralWhite|ForestGreen|Fuchsia|Gainsboro|GhostWhite|Gold|GoldenRod|Gray|Grey|Green|GreenYellow|HoneyDew|HotPink|IndianRed|Indigo|Ivory|Khaki|Lavender|LavenderBlush|LawnGreen|LemonChiffon|LightBlue|LightCoral|LightCyan|LightGoldenRodYellow|LightGray|LightGrey|LightGreen|LightPink|LightSalmon|LightSeaGreen|LightSkyBlue|LightSlateGray|LightSlateGrey|LightSteelBlue|LightYellow|Lime|LimeGreen|Linen|Magenta|Maroon|MediumAquaMarine|MediumBlue|MediumOrchid|MediumPurple|MediumSeaGreen|MediumSlateBlue|MediumSpringGreen|MediumTurquoise|MediumVioletRed|MidnightBlue|MintCream|MistyRose|Moccasin|NavajoWhite|Navy|OldLace|Olive|OliveDrab|Orange|OrangeRed|Orchid|PaleGoldenRod|PaleGreen|PaleTurquoise|PaleVioletRed|PapayaWhip|PeachPuff|Peru|Pink|Plum|PowderBlue|Purple|RebeccaPurple|Red|RosyBrown|RoyalBlue|SaddleBrown|Salmon|SandyBrown|SeaGreen|SeaShell|Sienna|Silver|SkyBlue|SlateBlue|SlateGray|SlateGrey|Snow|SpringGreen|SteelBlue|Tan|Teal|Thistle|Tomato|Turquoise|Violet|Wheat|White|WhiteSmoke|Yellow|YellowGreen|transparent)(?!\w|\d)/, "gi")
   },
-  fixedBreak : new RegExp(/(<[^br](.*?)>)/, "g"),
+  fixedBreak : new RegExp(/(<(.*?)>)/, "g"),
  };
  if(options.mode === modeArray[2]) {
  let main = inputX_1.innerHTML;
@@ -125,12 +128,12 @@ function highlight(inputX, inputX_1, options) {
  for(let c = 0; c < _css.length; c++) {
   let cssStr = _css[c].innerHTML;
   cssStr = cssStr.replace(/<(.*?)>/g, ``);
-  cssStr = cssStr.replace(tokenjs.modeCss.bracket, `<bracket>$1</bracket>`);
   cssStr = cssStr.replace(tokenjs.modeCss._string_, `<type1>$1</type1>`);
   cssStr = cssStr.replace(tokenjs.modeCss.number, `<numberBasic>$1</numberBasic>`);
   cssStr = cssStr.replace(tokenjs.modeCss.at_, `<at>$1</at>`);
   cssStr = cssStr.replace(tokenjs.modeHtml.qoute, `<qoute>$1</qoute>`);
   cssStr = cssStr.replace(tokenjs.comments.css, `<comment>$1</comment>`);
+  cssStr = cssStr.replace(tokenjs.modeCss.bracket, `<bracket>$1</bracket>`);
   _css[c].innerHTML = cssStr;
  }
  }
@@ -138,13 +141,11 @@ function highlight(inputX, inputX_1, options) {
    let CssStr1 = inputX_1.innerHTML;
    CssStr1 = CssStr1.replace(/<(.*?)>/g, ``);
    CssStr1 = CssStr1.replace(tokenjs.modeHtml.qoute, `<qoute>$1</qoute>`);
-  if(CssStr1.match(/(?<!<(.*?)>)(\{|\})/)) {
-  CssStr1 = CssStr1.replace(tokenjs.modeCss.bracket, `<bracket>$1</bracket>`);
-  }
   CssStr1 = CssStr1.replace(tokenjs.modeCss._string_, `<type1>$1</type1>`);
   CssStr1 = CssStr1.replace(tokenjs.modeCss.number, `<numberBasic>$1</numberBasic>`);
   CssStr1 = CssStr1.replace(tokenjs.modeCss.at_, `<at>$1</at>`);
   CssStr1 = CssStr1.replace(tokenjs.comments.css, `<comment>$1</comment>`);
+  CssStr1 = CssStr1.replace(tokenjs.modeCss.bracket, `<bracket>$1</bracket>`);
   inputX_1.innerHTML = CssStr1;
  }
  if(options.mode === "plain/javascript") {
@@ -163,22 +164,21 @@ function highlight(inputX, inputX_1, options) {
    JsStr1= JsStr1.replace(tokenjs.modeJs.regex, `<regex>$1</regex>`);
   inputX_1.innerHTML = JsStr1;
  }
- for(let b = 0; b < bracket.length; b++) {
-  let brckt = bracket[b].innerHTML;
-  brckt = brckt.replace(/<(.*?)>/g, ``);
-  brckt = brckt.replace(tokenjs.modeHtml.qoute, `<qoute>$1</qoute>`);
-  brckt = brckt.replace(tokenjs.modeCss.number, `<numberBasic>$1</numberBasic>`);
-  brckt = brckt.replace(tokenjs.modeCss.value, `<value>$1</value>`);
-  brckt = brckt.replace(tokenjs.modeCss._string_, `<type1>$1</type1>`);
-  brckt = brckt.replace(tokenjs.modeCss.brValue, `<property>$1</property>`);
-  brckt = brckt.replace(tokenjs.comments.css, `<comment>$1</comment>`);
-  bracket[b].innerHTML = brckt;
- }
  //.....
  for(let q = 0; q < qoute.length; q++) {
    let str2 = qoute[q].innerHTML;
    str2 = str2.replace(/(<(.*?)>)/g, ``);
    qoute[q].innerHTML = str2;
+ }
+ for(let b = 0; b < bracket.length; b++) {
+  let brckt = bracket[b].innerHTML;
+  brckt = brckt.replace(/<(^[^c].*?)>/g, ``);
+  brckt = brckt.replace(tokenjs.modeHtml.qoute, `<qoute>$1</qoute>`);
+  brckt = brckt.replace(tokenjs.modeCss.number, `<numberBasic>$1</numberBasic>`);
+  brckt = brckt.replace(tokenjs.modeCss.value, `<value>$1</value>`);
+  brckt = brckt.replace(tokenjs.modeCss.brValue, `<property>$1</property>`);
+  brckt = brckt.replace(tokenjs.modeCss._string_, `<type1>$1</type1>`);
+  bracket[b].innerHTML = brckt;
  }
  for(let c = 0; c < comment.length; c++) {
    let str3 = comment[c].innerHTML;
@@ -188,7 +188,7 @@ function highlight(inputX, inputX_1, options) {
  for(let r = 0; r < _reg.length; r++) {
   let regStr = _reg[r].innerHTML;
   regStr = regStr.replace(/<(.*?)>/g, ``);
-  regStr = regStr.replace(/(&gt;|&lt;|[\*\.\?\(\)\=\!\[\]\|]|\\[a-zA-Z"']|\\\/|["']|\\\\|\\\|)/g, `<rg>$1</rg>`);
+  regStr = regStr.replace(/(&gt;|&lt;|[\*\.\?\=\!\[\]\|]|\\[a-zA-Z"']|\\\/|["']|\\\\|\\\||\\\(|\\\)|(?<!\\)(\(|\)))/g, `<rg>$1</rg>`);
   regStr = regStr.replace(/(?<!&lt;)(^\/|\/$|\/(?=[gmiys]+))/g, `<ednreg>$1</ednreg>`);
   _reg[r].innerHTML = regStr;
  }
@@ -197,6 +197,23 @@ function highlight(inputX, inputX_1, options) {
   notation = notation.replace(/<(.*?)>/g, ``);
   notation = notation.replace(tokenjs.modeJs.cfh, `<u_>$1</u_>`)
   not[n].innerHTML = notation;
+ }
+ for(let u = 0; u < u_.length; u++) {
+  let un = u_[u].innerHTML;
+  un = un.replace(/<(.*?)>/g, ``);
+  un = un.replace(/(<(.*?)>)/g, ``);
+   un = un.replace(tokenjs.modeJs.operator, `<operation>$1</operation>`);
+   un = un.replace(tokenjs.modeJs.def, "<define>$1</define>");
+   un = un.replace(tokenjs.modeJs.type, `<type>$1</type>`)
+   un = un.replace(tokenjs.modeJs.keywords, `<keyword>$1</keyword>`);
+   un = un.replace(tokenjs.modeJs.number, `<numberbasic>$1</numberbasic>`);
+   un = un.replace(tokenjs.modeJs.property, `<prop>$1</prop>`);
+   un = un.replace(tokenjs.modeJs.qoute, `<qoute>$1</qoute>`);
+   un = un.replace(tokenjs.modeJs.tic, `<not>$1</not>`);
+   un = un.replace(tokenjs.comments.js[0], `<comment>$1</comment>`);
+   un = un.replace(tokenjs.comments.js[1], `<comment>$1</comment>`);
+   un = un.replace(tokenjs.modeJs.regex, `<regex>$1</regex>`);
+  u_[u].innerHTML = un;
  }
  for(let v = 0; v < _value.length; v++) {
   let vstr = _value[v].innerHTML;
@@ -209,20 +226,57 @@ function highlight(inputX, inputX_1, options) {
   _value[v].innerHTML = vstr;
  }
 }
-
+ function indent(tx){ 	
+tx.addEventListener("keydown",function(event){ 	
+if(event.keyCode === 13){		
+event.preventDefault();			
+insert("\n");		
+} 		
+if(event.keyCode === 9){			
+event.preventDefault();
+console.log(event.keyCode)
+insert(" ");
+}		
+}
+); 
+function insert(v){			
+var txt = tx.value;			
+var point = tx.selectionEnd;					
+var s = "",
+e = "",
+c = "",
+hh=false;	
+let str = "\n";
+var sn = txt.lastIndexOf(str,point-1);			
+if(sn === -1){				
+hh = true;			
+}			
+var x1 = txt.substring(sn,txt.length); 			
+var rxx = /^\s*/gis			
+c = x1.match(rxx)[0];			
+s = txt.substring(0,point);			
+e = txt.substring(point,txt.length);						
+if(hh) {				
+txt = s + c + v + e;			
+}
+else				txt = s +c+ e;						
+tx.value = txt;			
+if(hh) {				tx.setSelectionRange(point+c.length+1,point+c.length+1)			
+}
+else{				tx.setSelectionRange(point+c.length,point+c.length)			}	 		 
+}
+}
 
 function insertText(txt1, txt2, container, options) {
  txt1.addEventListener("keyup", function(event) {
   new highlight(txt1, txt2, options);
- });
- txt1.addEventListener("paste", function() {
-   txt2.innerText = txt1.value;
-   new highlight(txt1, txt2, options);
- });
+  txt1.value.trim(" ");
+  console.log(txt2.getClientRects())
+  });
  container.addEventListener("click", function() {
   txt1.focus();
  })
-} 
+}
 function BasicEditorJs(container, options) {
  if(container === "" || container === null || container === undefined) {
   console.error(`no container found at ${container.constrcutor}`)
@@ -235,7 +289,7 @@ function BasicEditorJs(container, options) {
  console.log(`container is found at ${this.name}`)
  container.innerHTML = `
   <div class="codeEditor">
-   <pre><textarea class="cursor input"></textarea><code class="syntax input" contenteditable></code></pre>
+   <pre arial-hidden="true"><textarea class="cursor input" spellcheck="false"></textarea><code class="syntax input" arial-hidden="true"></code></pre>
   </div>
  `;
  this.options = {
@@ -288,6 +342,7 @@ function BasicEditorJs(container, options) {
    func();
   })
  }
+  if(this.options.value === undefined || this.options.value === null) this.options.value = "";
   if(this.options.toggle === undefined || this.options.toggle === null | this.options.toggle) {
     this.options.toggle = "dark";
     this.container.setAttribute("class",`codeEditor ${this.options.toggle}`);
@@ -300,6 +355,7 @@ function BasicEditorJs(container, options) {
   if(this.options.editable === false) this.text.disabled = "disabled";
   this.text.placeholder = this.options.placeholder;
   if(this.options.placeholder === null || this.options.placeholder === undefined || this.options.placeholder === "") this.text.placeholder = "";
-  new insertText(this.text, this.syntax, this.container, this.options);
+  new insertText(this.text, this.syntax, this.container, this.options, this.line);
  new highlight(this.text, this.syntax, this.options)
+ new indent(this.text)
 }
